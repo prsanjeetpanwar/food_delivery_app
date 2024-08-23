@@ -30,16 +30,31 @@ const VendorSchema = new Schema({
     coverImage: { type: String },
     serviceAvailable: { type: Boolean },
     rating: { type: Number },
-    foods: [{
+    foods: [
+        {
 
         type: Schema.Types.ObjectId,
         ref: 'food'
-
-
     }],
 },
     {
+        toJSON: {
+            transform(doc,ref){
+                delete ref.password,
+                delete ref.salt,
+                delete ref.__v,
+                delete ref.createdAt,
+                delete ref.updatedAt
+            }
+        },
         timestamps: true
     }
 
 )
+
+
+
+const vendor =mongoose.model<VendorDoc>('vendor',VendorSchema)
+
+
+export {vendor}
